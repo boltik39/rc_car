@@ -21,11 +21,11 @@ class Motor:
         print(f"[INFO] Get speed {speed}")
         if abs(speed) <= 100:
             if speed > 0:
-                self._in_1_pwm.ChangeDutyCycle(abs(speed))
-                self._in_2_pwm.ChangeDutyCycle(0)
-            elif speed < 0:
                 self._in_1_pwm.ChangeDutyCycle(0)
                 self._in_2_pwm.ChangeDutyCycle(abs(speed))
+            elif speed < 0:
+                self._in_1_pwm.ChangeDutyCycle(abs(speed))
+                self._in_2_pwm.ChangeDutyCycle(0)
             else:
                 self._in_1_pwm.ChangeDutyCycle(0)
                 self._in_2_pwm.ChangeDutyCycle(0)
