@@ -10,10 +10,11 @@ class Servo:
         self._servo_pin = servo_pin
         GPIO.setup(self._servo_pin, GPIO.OUT)
         self._servo_pin_pwm = GPIO.PWM(self._servo_pin, frequency)
+        self._servo_pin_pwm.start(7.5)
 
     def rotate(self, rotation: float):
         print(f"[INFO] Get rotation {rotation}")
         if (rotation <= 12.5) and (rotation >= 2.5):
-            self._servo_pin_pwm.start(rotation)
+            self._servo_pin_pwm.ChangeDutyCycle(rotation)
         else:
             print(f"[ERROR] wrong rotation value {rotation}. It must be in [2.5, 12.5]")

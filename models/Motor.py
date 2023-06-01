@@ -14,23 +14,25 @@ class Motor:
         GPIO.setup(self._in_2, GPIO.OUT)
         self._in_1_pwm = GPIO.PWM(self._in_1, frequency)
         self._in_2_pwm = GPIO.PWM(self._in_2, frequency)
+        self._in_1_pwm.start(0)
+        self._in_2_pwm.start(0)
 
     def go(self, speed: int):
         print(f"[INFO] Get speed {speed}")
         if abs(speed) <= 100:
             if speed > 0:
-                self._in_1_pwm.start(abs(speed))
-                GPIO.output(self._in_2, GPIO.LOW)
+                self._in_1_pwm.ChangeDutyCycle(abs(speed))
+                self._in_2_pwm.ChangeDutyCycle(0)
             elif speed < 0:
-                GPIO.output(self._in_1, GPIO.LOW)
-                self._in_2_pwm.start(abs(speed))
+                self._in_1_pwm.ChangeDutyCycle(0)
+                self._in_2_pwm.ChangeDutyCycle(abs(speed))
             else:
-                GPIO.output(self._in_1, GPIO.LOW)
-                GPIO.output(self._in_2, GPIO.LOW)
+                self._in_1_pwm.ChangeDutyCycle(0)
+                self._in_2_pwm.ChangeDutyCycle(0)
         else:
             print(f"[ERROR] wrong speed value {speed}. It must be in [-100, 100]")
 
     def braking(self):
         print("[INFO] Start braking")
-        GPIO.output(self._in_1, GPIO.HIGH)
-        GPIO.output(self._in_2, GPIO.HIGH)
+        self._in_1_pwm.ChangeDutyCycle(100)
+        self._in_2_pwm.ChangeDutyCycle(100)
